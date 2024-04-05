@@ -2,6 +2,7 @@ package com.amalfi.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,4 +30,8 @@ public class UtentiController {
         return userRepo.findByEmailAndPassword(username,md5PWD);
 	}
 
+	@GetMapping("listaUtenti")
+	public List<Utenti> listaUtenti(){
+		return userRepo.findAll();
+	}
 }
