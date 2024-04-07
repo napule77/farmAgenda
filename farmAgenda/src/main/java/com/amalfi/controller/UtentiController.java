@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,8 @@ public class UtentiController {
 	@Autowired
 	UtentiRepository userRepo;
 
-	@GetMapping("/login")
-	public ResponseEntity<Utenti> loginUtente(String username, String password) throws NoSuchAlgorithmException {
+	@PostMapping("/login")
+	public ResponseEntity<Utenti> loginUtente(String username,String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());
 		byte byteData[] = md.digest();
@@ -37,8 +38,8 @@ public class UtentiController {
 	}
 
 	@GetMapping("listaUtenti")
-	public List<Utenti> listaUtenti() {
-		return userRepo.findAll();
+	public ResponseEntity<List<Utenti>> listaUtenti() {
+		return new ResponseEntity<List<Utenti>>(userRepo.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping("/inserisciUtente")
